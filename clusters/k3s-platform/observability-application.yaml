@@ -37,4 +37,4 @@ spec:                                                                           
       selfHeal: true                                                                    # Correct manual changes made to the stack.
     syncOptions:                                                                        # Configure synchronization behavior.
       - CreateNamespace=true                                                            # Create the monitoring namespace automatically.
-
+      - ServerSideApply=true								# Use serverSideApply to fix an issue I had.
