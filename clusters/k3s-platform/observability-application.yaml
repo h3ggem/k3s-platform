@@ -1,0 +1,40 @@
+# AI-assisted configuration file
+# Configuration file for the kube-prometheus-stack.
+
+apiVersion: argoproj.io/v1alpha1                                                        # Use the Argo CD Application API.
+kind: Application                                                                       # Create an Argo CD Application object.
+metadata:                                                                               # Metadata identifies this Application.
+  name: observability                                                                   # Name shown in Argo CD.
+  namespace: argocd                                                                     # Argo CD Applications live in the argocd namespace.
+spec:                                                                                   # Define the desired Argo CD configuration.
+  project: default                                                                      # Use the default Argo CD project.
+  source:                                                                               # Define the external Helm chart source.
+    repoURL: https://prometheus-community.github.io/helm-charts                         # Prometheus Community Helm repository.
+    chart: kube-prometheus-stack                                                        # Chart containing Prometheus, Grafana and Alertmanager.
+    targetRevision: 87.12.2                                                             # Pin the exact chart version for repeatable deployments.
+    helm:                                                                               # Configure Helm values for the chart.
+      values: |                                                                         # Define Helm values that override the chart defaults.
+        kubeEtcd:                                                                       # Configure etcd monitoring.
+          enabled: false                                                                # K3s does not expose etcd as a normal managed endpoint.
+        kubeProxy:                                                                      # Configure kube-proxy monitoring.
+          enabled: false                                                                # K3s does not expose kube-proxy metrics as expected here.
+        kubeControllerManager:                                                          # Configure controller-manager monitoring.
+          enabled: false                                                                # Avoid an unsupported K3s control-plane scrape target.
+        kubeScheduler:                                                                  # Configure scheduler monitoring.
+          enabled: false                                                                # Avoid an unsupported K3s control-plane scrape target.
+        grafana:                                                                        # Configure Grafana.
+          enabled: true                                                                 # Install Grafana.
+        prometheus:                                                                     # Configure Prometheus.
+          enabled: true                                                                 # Install Prometheus.
+          prometheusSpec:                                                               # Configure the Prometheus server.
+            retention: 7d                                                               # Keep collected metrics for seven days.
+  destination:                                                                          # Define where Argo CD deploys the chart.
+    server: https://kubernetes.default.svc                                              # Deploy to the local Kubernetes cluster.
+    namespace: monitoring                                                               # Install the stack in the monitoring namespace.
+  syncPolicy:                                                                           # Define how Argo CD synchronizes the chart.
+    automated:                                                                          # Enable automatic synchronization.
+      prune: true                                                                       # Remove resources deleted from this definition.
+      selfHeal: true                                                                    # Correct manual changes made to the stack.
+    syncOptions:                                                                        # Configure synchronization behavior.
+      - CreateNamespace=true                                                            # Create the monitoring namespace automatically.
+
