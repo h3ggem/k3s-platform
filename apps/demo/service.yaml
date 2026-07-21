@@ -1,0 +1,17 @@
+# AI assisted configuration
+# This service gives one stable internal address and load-balances traffic across the 3 pods specified in deployment.yaml
+
+
+apiVersion: v1			# Use the core Kubernetes API.
+kind: Service			# Create a Service object.
+metadata:			# Metadata identifies this Service.
+  name: demo-web		# Name of the service.
+  namespace: demo		# Target namespace defined in namespace.yaml.
+spec:				# Desired state of the service.
+  type: ClusterIP		# Expose the service only inside the cluster.
+  selector:			# Select the Pods that should receive traffic.
+    app: demo-web		# Select Pods with this matching label.
+  ports:			# Define the Service ports.
+    - name: http		# Name this service port http.
+      port: 80			# Port the clients use when connecting to the service.
+      targetPort: http		# Forward traffic to the container port named http in deployment.yaml.

@@ -1,0 +1,45 @@
+# AI-assisted configuration file
+# This configuration file is responsible for creating the pods.
+
+apiVersion: apps/v1			# Use the standard, stable API version for this deployment.
+kind: Deployment			# Create a Deployment object.
+metadata:				# Metadata block to identify this deployment.
+  name: demo-web			# Name of this deployment.
+  namespace: demo			# Target namespace for this Deployment.
+  labels:				# Labels attached to the deployment object.
+    app: demo-web			# A label used to identify this application.
+spec:					# A block to specify the desired state of the deployment.
+  replicas: 3				# The desired state of pods Kubernetes should maintain.
+  selector:				# Defines which Pods belong to this Deployment.
+    matchLabels:			# Labels used by the selector.
+      app: demo-web			# Referencing same as earlier, needs to match pod template.
+  template:				# A block to configure the template used when creating pods.
+    metadata:				# Metadata for each pod that is created.
+      labels:				# Labels that are assigned to each pod.
+        app: demo-web			# Matching the deployment selector.
+    spec:				# A block to specify desired state for each pod.
+      containers:			# A list of containers inside each pod.
+        - name: nginx 			# Name of the container inside each Pod.
+          image: nginx:1.27.5-alpine	# Using a pinned image version for repeatable deployments.
+          ports:			# Declare the ports used by containers in the Pod.
+            - name: http		# Name used by the probes and Service.
+              containerPort: 80		# Nginx listens on port 80 inside the container.
+          readinessProbe:		# Checks whether the Pod is ready to receive traffic.
+            httpGet:			# Performs an HTTP request for the readiness check.
+              path: /			# Requests the root webpage.
+              port: http		# Uses the named container port called http, which maps to port 80.
+            initialDelaySeconds: 5	# Wait five seconds before the first readiness check.
+            periodSeconds: 5		# Repeat the readiness check every five seconds.
+          livenessProbe:		# Checks whether the container is still responding correctly.
+            httpGet:			# Performs an HTTP request for the liveness check.
+              path: /			# Requests the root webpage.
+              port: http		# Uses the named container port called http, which maps to port 80.
+            initialDelaySeconds: 15	# Wait 15 seconds before the first liveness check.
+            periodSeconds: 10		# Repeat the liveness check every 10 seconds.
+          resources:			# Specify the resource requirements for the container.
+            requests:			# Resources Kubernetes uses when scheduling the pod.
+              cpu: 50m			# Request 0.05 CPU cores.
+              memory: 64Mi		# Request 64 MiB of memory.
+            limits:			# Maximum resources the container is allowed to use.
+              cpu: 250m			# Sets a limit of 0.25 CPU cores for the container.
+              memory: 128Mi		# Sets a limit of 128 MiB of memory for the container.

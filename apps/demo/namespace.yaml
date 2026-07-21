@@ -1,0 +1,8 @@
+# AI assisted configuration
+
+apiVersion: v1	# Specify to use the core Kubernetes API
+kind: Namespace	# Creating a namespace object
+metadata:	# Metadata block that identifies this namespace object
+  name: demo	# Name of the namespace that will contain the demo app
+
+

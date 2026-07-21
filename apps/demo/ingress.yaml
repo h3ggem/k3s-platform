@@ -1,0 +1,21 @@
+# AI assisted configuration
+# This tells Traefik how to route incoming HTTP request to the demo-web service.
+
+apiVersion: networking.k8s.io/v1			# Use the stable kubernetes Ingress API.
+kind: Ingress						# Create an Ingress object.
+metadata:						# Metadata that identifies this Ingress.
+  name: demo-web					# Name of the Ingress.
+  namespace: demo					# Target namespace defined in namespace.yaml.
+spec:							# Desired routing configuration.
+  ingressClassName: traefik				# Specify to use K3s´s Traefik Ingress controller.
+  rules:						# Define the HTTP routing rules.
+    - host: demo.k3s.local				# Match requests using this hostname.
+      http:						# Define HTTP routing for this hostname.
+        paths:					# Define URL path rules.
+          - path: /					# Match requests beginning with /.
+            pathType: Prefix				# Match the path and everything below it
+            backend:					# Define where matching traffic should go.
+              service:				# Route traffic to a Kubernetes service.
+                name: demo-web			# Name of service traffic is routed to.
+                port:					# Destination service port.
+                  name: http				# Use the service port named http from service.yaml.
