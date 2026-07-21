@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1			# Use the Argo CD Application API.
+kind: Application					# Create an Argo CD Application object.
+metadata:						# Metadata identifies this Argo CD Application.
+  name: demo-web					# Name shown in Argo CD.
+  namespace: argocd					# Argo CD Applications live in the argocd namespace.
+spec:							# Define the desired Argo CD configuration.
+  project: default					# Use Argo CD's default project.
+  source:						# Define where Argo CD gets the manifests.
+    repoURL: "git@github.com:h3ggem/k3s-platform.git"	# My private GitHub repository URL that was setup when starting project.
+    targetRevision: main				# Specify that it should follow the main branch in GitHub.
+    path: apps/demo					# Read Kubernetes manifests from this folder.
+  destination:						# Define where Argo CD deploys the manifests found in path.
+    server: https://kubernetes.default.svc		# The local Kubernetes cluster.
+    namespace: demo					# Deploy namespaced resources into the demo namespace.
+  syncPolicy:						# Define how Argo CD synchronizes Git and Kubernetes.
+    automated:						# Enable automatic synchronization between Git and Kubernetes.
+      prune: true					# Remove resources deleted from Git.
+      selfHeal: true					# Corrects manual changes made directly in the cluster.
