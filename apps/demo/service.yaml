@@ -1,6 +1,5 @@
-# AI assisted configuration
-# This service gives one stable internal address and load-balances traffic across the 3 pods specified in deployment.yaml
-
+# AI assisted configuration file
+# This Service provides stable internal access to the demo Pods.
 
 apiVersion: v1			# Use the core Kubernetes API.
 kind: Service			# Create a Service object.
@@ -15,3 +14,4 @@ spec:				# Desired state of the service.
     - name: http		# Name this service port http.
       port: 80			# Port the clients use when connecting to the service.
       targetPort: http		# Forward traffic to the container port named http in deployment.yaml.
+

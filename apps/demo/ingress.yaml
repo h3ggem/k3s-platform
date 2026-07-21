@@ -1,5 +1,5 @@
-# AI assisted configuration
-# This tells Traefik how to route incoming HTTP request to the demo-web service.
+# AI assisted configuration file
+# This Ingress routes demo.k3s.local traffic through Traefik.
 
 apiVersion: networking.k8s.io/v1			# Use the stable kubernetes Ingress API.
 kind: Ingress						# Create an Ingress object.
@@ -19,3 +19,4 @@ spec:							# Desired routing configuration.
                 name: demo-web			# Name of service traffic is routed to.
                 port:					# Destination service port.
                   name: http				# Use the service port named http from service.yaml.
+

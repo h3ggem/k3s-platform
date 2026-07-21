@@ -1,0 +1,22 @@
+# AI assisted configuration file
+# This Ingress routes argocd.k3s.local traffic to Argo CD.
+
+apiVersion: networking.k8s.io/v1                        # Use the stable Kubernetes Ingress API.
+kind: Ingress                                           # Create an Ingress object.
+metadata:                                               # Metadata identifies this Ingress.
+  name: argocd-server                                   # Name of the Argo CD Ingress.
+  namespace: argocd                                     # Place the Ingress in the argocd namespace.
+spec:                                                   # Define the routing configuration.
+  ingressClassName: traefik                             # Use the Traefik Ingress controller.
+  rules:                                                # Define the HTTP routing rules.
+    - host: argocd.k3s.local                            # Match requests for this hostname.
+      http:                                             # Define HTTP routing for this hostname.
+        paths:                                          # Define URL path rules.
+          - path: /                                     # Match all paths beginning with /.
+            pathType: Prefix                            # Match this path and everything below it.
+            backend:                                    # Define the destination for matching traffic.
+              service:                                  # Route traffic to a Kubernetes Service.
+                name: argocd-server                     # Route traffic to the Argo CD server Service.
+                port:                                   # Define the destination Service port.
+                  number: 80                            # Use Argo CD's internal HTTP Service port.
+

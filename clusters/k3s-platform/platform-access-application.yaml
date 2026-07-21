@@ -1,0 +1,31 @@
+# AI assisted configuration file
+# This Application exposes Argo CD and Grafana through Traefik.
+
+apiVersion: argoproj.io/v1alpha1			# Use the Argo CD Application API.
+kind: Application					# Create an Argo CD Application object.
+metadata:						# Metadata identifies this Application.
+  name: platform-access					# Name shown in Argo CD.
+  namespace: argocd					# Place the Application in the argocd namespace.
+spec:							# Define the desired Argo CD configuration.
+  project: default					# Use the default Argo CD project.
+  source:						# Define where Argo CD reads the manifest.
+    repoURL: git@github.com:h3ggem/k3s-platform.git	# Private GitHub repository URL.
+    targetRevision: main				# Use the main branch.
+    path: clusters/k3s-platform/platform-access		# Read manifests from the platform-access folder.
+  destination:						# Define where Argo CD deploys the manifests.
+    server: https://kubernetes.default.svc		# Deploy to the local Kubernetes cluster.
+    namespace: argocd					# Default namespace for this Application's resources.
+  syncPolicy:						# Define how Argo CD synchronizes its manifests.
+    automated:						# Enable automatic synchronization.
+      prune: true					# Remove resources deleted from Git.
+      selfHeal: true					# Correct manual changes made to these resources.
+    retry:						# Retry synchronization after a failure.
+      limit: 5						# Try up to five times.
+      backoff:						# Increase the delay between attempts.
+        duration: 10s					# Wait 10 seconds before the first retry.
+        factor: 2					# Double the delay after each retry.
+        maxDuration: 3m					# Never wait longer than three minutes.
+    syncOptions:					# Define synchronization behavior.
+      - ServerSideApply=true				# Use server-side apply for resource updates.
+		
+

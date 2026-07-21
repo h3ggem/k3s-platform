@@ -1,4 +1,5 @@
-# AI assisted configuration
+# AI assisted configuration file
+# This Application deploys the demo app from Git through Argo CD.
 
 apiVersion: argoproj.io/v1alpha1			# Use the Argo CD Application API.
 kind: Application					# Create an Argo CD Application object.
@@ -18,3 +19,10 @@ spec:							# Define the desired Argo CD configuration.
     automated:						# Enable automatic synchronization between Git and Kubernetes.
       prune: true					# Remove resources deleted from Git.
       selfHeal: true					# Corrects manual changes made directly in the cluster.
+    retry:						# Retry synchronization after a failure.
+      limit: 5						# Try up to five times.
+      backoff:						# Increase the delay between attempts.
+        duration: 10s					# Wait 10 seconds before the first retry.
+        factor: 2					# Double the delay after each retry.
+        maxDuration: 3m					# Never wait longer than three minutes.
+

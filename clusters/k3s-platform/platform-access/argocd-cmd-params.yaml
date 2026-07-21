@@ -1,0 +1,11 @@
+# AI assisted configuration file
+# This ConfigMap configures Argo CD for HTTP behind Traefik.
+
+apiVersion: v1			# Use the core Kubernetes API.
+kind: ConfigMap			# Create a ConfigMap object.
+metadata:			# Metadata that identifies this ConfigMap.
+  name: argocd-cmd-params-cm	# Name used by the Argo CD server.
+  namespace: argocd		# Placing the ConfigMap in the argocd namespace.
+data:				# Config values used by Argo CD.
+  server.insecure: "true"	# Tell Argo CD to serve HTTP behind Traefik.
+

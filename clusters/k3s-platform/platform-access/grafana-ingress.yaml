@@ -1,0 +1,22 @@
+# AI assisted configuration file
+# This Ingress routes grafana.k3s.local traffic to Grafana.
+
+apiVersion: networking.k8s.io/v1			# Use the stable Kubernetes Ingress API.
+kind: Ingress						# Create an Ingress object.
+metadata:						# Metadata identifies this Ingress.
+  name: grafana						# Name of the Grafana Ingress.
+  namespace: monitoring					# Place the Ingress in the monitoring namespace.
+spec:							# Define the routing configuration.
+  ingressClassName: traefik				# Use the Traefik Ingress controller.
+  rules:						# Define the HTTP routing rules.
+    - host: grafana.k3s.local				# Match requests for this hostname.
+      http:						# Define HTTP routing for this hostname.
+        paths:						# Define URL path rules.
+          - path: /					# Match all paths beginning with /.
+            pathType: Prefix				# Match this path and everything below it.
+            backend:					# Define the destination for matching traffic.
+              service:					# Route traffic to a Kubernetes Service.
+                name: observability-grafana		# Route traffic to the Grafana Service.
+                port:					# Define the destination Service port.
+                  number: 80				# Use Grafana's internal Service port.
+

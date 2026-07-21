@@ -1,5 +1,5 @@
-# AI-assisted configuration file
-# This configuration file is responsible for creating the pods.
+# AI assisted configuration file
+# This Deployment maintains three nginx Pods for the demo application.
 
 apiVersion: apps/v1			# Use the standard, stable API version for this deployment.
 kind: Deployment			# Create a Deployment object.
@@ -43,3 +43,4 @@ spec:					# A block to specify the desired state of the deployment.
             limits:			# Maximum resources the container is allowed to use.
               cpu: 250m			# Sets a limit of 0.25 CPU cores for the container.
               memory: 128Mi		# Sets a limit of 128 MiB of memory for the container.
+

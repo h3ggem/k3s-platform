@@ -1,5 +1,5 @@
-# AI-assisted configuration file
-# Configuration file for the kube-prometheus-stack.
+# AI assisted configuration file
+# This Application deploys Prometheus, Grafana and Alertmanager.
 
 apiVersion: argoproj.io/v1alpha1                                                        # Use the Argo CD Application API.
 kind: Application                                                                       # Create an Argo CD Application object.
@@ -44,3 +44,4 @@ spec:                                                                           
     syncOptions:                                                                        # Configure synchronization behavior.
       - CreateNamespace=true                                                            # Create the monitoring namespace automatically.
       - ServerSideApply=true								# Use serverSideApply to fix an issue I had.
+
