@@ -35,6 +35,12 @@ spec:                                                                           
     automated:                                                                          # Enable automatic synchronization.
       prune: true                                                                       # Remove resources deleted from this definition.
       selfHeal: true                                                                    # Correct manual changes made to the stack.
+    retry:										# Retry sync in case of sync fail.
+      limit: 5										# Try to resync up to 5 times.
+      backoff:										# Increase the delay between attempts.
+        duration: 10s									# Wait then seconds before the first try.
+        factor: 2									# Double the delay after each retry.
+        maxDuration: 3m									# Never wait longer than 3 minutes.
     syncOptions:                                                                        # Configure synchronization behavior.
       - CreateNamespace=true                                                            # Create the monitoring namespace automatically.
       - ServerSideApply=true								# Use serverSideApply to fix an issue I had.
