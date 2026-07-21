@@ -1,0 +1,8 @@
+# Files to ignore when publishing to public GitHub repository
+
+.env
+*.key
+*.pem
+kubeconfig*
+secrets/
+
