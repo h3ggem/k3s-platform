@@ -27,5 +27,4 @@ spec:							# Define the desired Argo CD configuration.
         maxDuration: 3m					# Never wait longer than three minutes.
     syncOptions:					# Define synchronization behavior.
       - ServerSideApply=true				# Use server-side apply for resource updates.
-		
 
