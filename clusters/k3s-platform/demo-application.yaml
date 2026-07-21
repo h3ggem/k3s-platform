@@ -1,3 +1,5 @@
+# AI assisted configuration
+
 apiVersion: argoproj.io/v1alpha1			# Use the Argo CD Application API.
 kind: Application					# Create an Argo CD Application object.
 metadata:						# Metadata identifies this Argo CD Application.
