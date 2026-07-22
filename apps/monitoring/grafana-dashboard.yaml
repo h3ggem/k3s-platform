@@ -5,570 +5,834 @@ apiVersion: v1
 data:
   k3s-platform-health.json: |-
     {
-      "annotations": {
-        "list": [
-          {
-            "builtIn": 1,
-            "datasource": {
-              "type": "grafana",
-              "uid": "-- Grafana --"
-            },
+      "annotations": [
+        {
+          "kind": "AnnotationQuery",
+          "spec": {
+            "builtIn": true,
             "enable": true,
             "hide": true,
             "iconColor": "rgba(0, 211, 255, 1)",
             "name": "Annotations & Alerts",
-            "type": "dashboard"
+            "query": {
+              "datasource": {
+                "name": "-- Grafana --"
+              },
+              "group": "grafana",
+              "kind": "DataQuery",
+              "spec": {},
+              "version": "v0"
+            }
           }
-        ]
-      },
-      "description": "Test dashboard.",
-      "editable": true,
-      "fiscalYearStartMonth": 0,
-      "graphTooltip": 0,
-      "liveNow": false,
-      "panels": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "fixedColor": "#ad46ff",
-                "mode": "thresholds"
-              },
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "dark-red",
-                    "value": 0
-                  },
-                  {
-                    "color": "#EAB839",
-                    "value": 2
-                  },
-                  {
-                    "color": "dark-green",
-                    "value": 3
-                  }
-                ]
-              }
-            }
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 8,
-            "x": 0,
-            "y": 0
-          },
-          "id": 1,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "percentChangeColorMode": "standard",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "13.1.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "builder",
-              "expr": "kube_deployment_status_replicas_available{namespace=\"demo\", deployment=\"demo-web\"}",
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "title": "Demo Web Available Replicas",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "showValues": false,
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "dark-green",
-                    "value": 0
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            }
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 8,
-            "x": 8,
-            "y": 0
-          },
-          "id": 2,
-          "options": {
-            "annotations": {
-              "clustering": -1,
-              "multiLane": false
-            },
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "enableFacetedFilter": true,
-              "overflow": "ellipsis",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "13.1.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "kube_deployment_spec_replicas{\n    namespace=\"demo\",\n    deployment=\"demo-web\"\n  }",
-              "format": "time_series",
-              "legendFormat": "Desired replicas",
-              "range": true,
-              "refId": "A"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "kube_deployment_status_replicas_available{\n    namespace=\"demo\",\n    deployment=\"demo-web\"\n  }",
-              "format": "time_series",
-              "instant": false,
-              "interval": "",
-              "legendFormat": "Available replicas",
-              "range": true,
-              "refId": "B"
-            }
-          ],
-          "title": "Demo Web Desired vs Available Replicas",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "dark-red",
-                    "value": 0
-                  },
-                  {
-                    "color": "dark-yellow",
-                    "value": 2
-                  },
-                  {
-                    "color": "dark-green",
-                    "value": 3
-                  }
-                ]
-              }
-            }
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 8,
-            "x": 16,
-            "y": 0
-          },
-          "id": 3,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "percentChangeColorMode": "standard",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "13.1.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "sum(kube_node_status_condition{condition=\"Ready\",status=\"true\"})",
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "title": " Ready Cluster Nodes",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "showValues": false,
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": 0
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "cores"
-            }
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 8,
-            "x": 0,
-            "y": 9
-          },
-          "id": 4,
-          "options": {
-            "annotations": {
-              "clustering": -1,
-              "multiLane": false
-            },
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "enableFacetedFilter": false,
-              "overflow": "ellipsis",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "13.1.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "sum by (pod) (\n    rate(\n      container_cpu_usage_seconds_total{\n        namespace=\"demo\",\n        container!=\"\",\n        image!=\"\"\n      }[5m]\n    )\n  )\n",
-              "legendFormat": "{{pod}}",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "title": "Demo Web CPU Usage",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "continuous-GrYlRd"
-              },
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": 0
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "bytes"
-            }
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 8,
-            "x": 8,
-            "y": 9
-          },
-          "id": 5,
-          "options": {
-            "displayMode": "basic",
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "overflow": "ellipsis",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "maxVizHeight": 300,
-            "minVizHeight": 16,
-            "minVizWidth": 8,
-            "namePlacement": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showUnfilled": true,
-            "sizing": "auto",
-            "valueMode": "color"
-          },
-          "pluginVersion": "13.1.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "sum by (pod) (\n    container_memory_working_set_bytes{\n      namespace=\"demo\",\n      container!=\"\",\n      image!=\"\"\n    }\n  )\n",
-              "legendFormat": "{{pods}}",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "title": "Demo Web Memory Usage",
-          "type": "bargauge"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "fillOpacity": 80,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineWidth": 1,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "decimals": 0,
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": 0
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "short"
-            }
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 8,
-            "x": 16,
-            "y": 9
-          },
-          "id": 6,
-          "options": {
-            "barRadius": 0,
-            "barWidth": 0.97,
-            "fullHighlight": false,
-            "groupWidth": 0.7,
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "overflow": "ellipsis",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "orientation": "auto",
-            "showValue": "auto",
-            "stacking": "none",
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
-            },
-            "xTickLabelRotation": 0,
-            "xTickLabelSpacing": 0
-          },
-          "pluginVersion": "13.1.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "sum by (pod) (\n    kube_pod_container_status_restarts_total{\n      namespace=\"demo\"\n    }\n  )",
-              "legendFormat": "{{pods}}",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "title": "Demo Web Pod Restarts",
-          "type": "barchart"
         }
       ],
-      "preload": false,
-      "refresh": "",
-      "schemaVersion": 42,
-      "time": {
-        "from": "now-6h",
-        "to": "now"
+      "cursorSync": "Off",
+      "description": "Test dashboard.",
+      "editable": true,
+      "elements": {
+        "panel-1": {
+          "kind": "Panel",
+          "spec": {
+            "data": {
+              "kind": "QueryGroup",
+              "spec": {
+                "queries": [
+                  {
+                    "kind": "PanelQuery",
+                    "spec": {
+                      "hidden": false,
+                      "query": {
+                        "datasource": {
+                          "name": "prometheus"
+                        },
+                        "group": "prometheus",
+                        "kind": "DataQuery",
+                        "spec": {
+                          "editorMode": "builder",
+                          "expr": "kube_deployment_status_replicas_available{namespace=\"demo\", deployment=\"demo-web\"}",
+                          "legendFormat": "__auto",
+                          "range": true
+                        },
+                        "version": "v0"
+                      },
+                      "refId": "A"
+                    }
+                  }
+                ],
+                "queryOptions": {},
+                "transformations": []
+              }
+            },
+            "description": "",
+            "id": 1,
+            "links": [],
+            "title": "Demo Web Available Replicas",
+            "vizConfig": {
+              "group": "stat",
+              "kind": "VizConfig",
+              "spec": {
+                "fieldConfig": {
+                  "defaults": {
+                    "color": {
+                      "fixedColor": "#ad46ff",
+                      "mode": "thresholds"
+                    },
+                    "thresholds": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "dark-red",
+                          "value": 0
+                        },
+                        {
+                          "color": "#EAB839",
+                          "value": 2
+                        },
+                        {
+                          "color": "dark-green",
+                          "value": 3
+                        }
+                      ]
+                    }
+                  },
+                  "overrides": []
+                },
+                "options": {
+                  "colorMode": "value",
+                  "graphMode": "none",
+                  "justifyMode": "auto",
+                  "orientation": "auto",
+                  "percentChangeColorMode": "standard",
+                  "reduceOptions": {
+                    "calcs": [
+                      "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                  },
+                  "showPercentChange": false,
+                  "textMode": "auto",
+                  "wideLayout": true
+                }
+              },
+              "version": "13.1.0"
+            }
+          }
+        },
+        "panel-2": {
+          "kind": "Panel",
+          "spec": {
+            "data": {
+              "kind": "QueryGroup",
+              "spec": {
+                "queries": [
+                  {
+                    "kind": "PanelQuery",
+                    "spec": {
+                      "hidden": false,
+                      "query": {
+                        "datasource": {
+                          "name": "prometheus"
+                        },
+                        "group": "prometheus",
+                        "kind": "DataQuery",
+                        "spec": {
+                          "editorMode": "code",
+                          "expr": "kube_deployment_spec_replicas{\n    namespace=\"demo\",\n    deployment=\"demo-web\"\n  }",
+                          "format": "time_series",
+                          "legendFormat": "Desired replicas",
+                          "range": true
+                        },
+                        "version": "v0"
+                      },
+                      "refId": "A"
+                    }
+                  },
+                  {
+                    "kind": "PanelQuery",
+                    "spec": {
+                      "hidden": false,
+                      "query": {
+                        "datasource": {
+                          "name": "prometheus"
+                        },
+                        "group": "prometheus",
+                        "kind": "DataQuery",
+                        "spec": {
+                          "editorMode": "code",
+                          "expr": "kube_deployment_status_replicas_available{\n    namespace=\"demo\",\n    deployment=\"demo-web\"\n  }",
+                          "format": "time_series",
+                          "instant": false,
+                          "interval": "",
+                          "legendFormat": "Available replicas",
+                          "range": true
+                        },
+                        "version": "v0"
+                      },
+                      "refId": "B"
+                    }
+                  }
+                ],
+                "queryOptions": {},
+                "transformations": []
+              }
+            },
+            "description": "",
+            "id": 2,
+            "links": [],
+            "title": "Demo Web Desired vs Available Replicas",
+            "vizConfig": {
+              "group": "timeseries",
+              "kind": "VizConfig",
+              "spec": {
+                "fieldConfig": {
+                  "defaults": {
+                    "color": {
+                      "mode": "palette-classic"
+                    },
+                    "custom": {
+                      "axisBorderShow": false,
+                      "axisCenteredZero": false,
+                      "axisColorMode": "text",
+                      "axisLabel": "",
+                      "axisPlacement": "auto",
+                      "barAlignment": 0,
+                      "barWidthFactor": 0.6,
+                      "drawStyle": "line",
+                      "fillOpacity": 0,
+                      "gradientMode": "none",
+                      "hideFrom": {
+                        "legend": false,
+                        "tooltip": false,
+                        "viz": false
+                      },
+                      "insertNulls": false,
+                      "lineInterpolation": "linear",
+                      "lineWidth": 1,
+                      "pointSize": 5,
+                      "scaleDistribution": {
+                        "type": "linear"
+                      },
+                      "showPoints": "auto",
+                      "showValues": false,
+                      "spanNulls": false,
+                      "stacking": {
+                        "group": "A",
+                        "mode": "none"
+                      },
+                      "thresholdsStyle": {
+                        "mode": "off"
+                      }
+                    },
+                    "thresholds": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "dark-green",
+                          "value": 0
+                        },
+                        {
+                          "color": "red",
+                          "value": 80
+                        }
+                      ]
+                    }
+                  },
+                  "overrides": []
+                },
+                "options": {
+                  "annotations": {
+                    "clustering": -1,
+                    "multiLane": false
+                  },
+                  "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "enableFacetedFilter": true,
+                    "overflow": "ellipsis",
+                    "placement": "bottom",
+                    "showLegend": true
+                  },
+                  "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                  }
+                }
+              },
+              "version": "13.1.0"
+            }
+          }
+        },
+        "panel-3": {
+          "kind": "Panel",
+          "spec": {
+            "data": {
+              "kind": "QueryGroup",
+              "spec": {
+                "queries": [
+                  {
+                    "kind": "PanelQuery",
+                    "spec": {
+                      "hidden": false,
+                      "query": {
+                        "datasource": {
+                          "name": "prometheus"
+                        },
+                        "group": "prometheus",
+                        "kind": "DataQuery",
+                        "spec": {
+                          "editorMode": "code",
+                          "expr": "sum(kube_node_status_condition{condition=\"Ready\",status=\"true\"})",
+                          "legendFormat": "__auto",
+                          "range": true
+                        },
+                        "version": "v0"
+                      },
+                      "refId": "A"
+                    }
+                  }
+                ],
+                "queryOptions": {},
+                "transformations": []
+              }
+            },
+            "description": "",
+            "id": 3,
+            "links": [],
+            "title": " Ready Cluster Nodes",
+            "vizConfig": {
+              "group": "stat",
+              "kind": "VizConfig",
+              "spec": {
+                "fieldConfig": {
+                  "defaults": {
+                    "color": {
+                      "mode": "thresholds"
+                    },
+                    "thresholds": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "dark-red",
+                          "value": 0
+                        },
+                        {
+                          "color": "dark-yellow",
+                          "value": 2
+                        },
+                        {
+                          "color": "dark-green",
+                          "value": 3
+                        }
+                      ]
+                    }
+                  },
+                  "overrides": []
+                },
+                "options": {
+                  "colorMode": "value",
+                  "graphMode": "area",
+                  "justifyMode": "auto",
+                  "orientation": "auto",
+                  "percentChangeColorMode": "standard",
+                  "reduceOptions": {
+                    "calcs": [
+                      "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                  },
+                  "showPercentChange": false,
+                  "textMode": "auto",
+                  "wideLayout": true
+                }
+              },
+              "version": "13.1.0"
+            }
+          }
+        },
+        "panel-4": {
+          "kind": "Panel",
+          "spec": {
+            "data": {
+              "kind": "QueryGroup",
+              "spec": {
+                "queries": [
+                  {
+                    "kind": "PanelQuery",
+                    "spec": {
+                      "hidden": false,
+                      "query": {
+                        "datasource": {
+                          "name": "prometheus"
+                        },
+                        "group": "prometheus",
+                        "kind": "DataQuery",
+                        "spec": {
+                          "editorMode": "code",
+                          "expr": "sum by (pod) (\n    rate(\n      container_cpu_usage_seconds_total{\n        namespace=\"demo\",\n        container!=\"\",\n        image!=\"\"\n      }[5m]\n    )\n  )\n",
+                          "legendFormat": "{{pod}}",
+                          "range": true
+                        },
+                        "version": "v0"
+                      },
+                      "refId": "A"
+                    }
+                  }
+                ],
+                "queryOptions": {},
+                "transformations": []
+              }
+            },
+            "description": "",
+            "id": 4,
+            "links": [],
+            "title": "Demo Web CPU Usage",
+            "vizConfig": {
+              "group": "timeseries",
+              "kind": "VizConfig",
+              "spec": {
+                "fieldConfig": {
+                  "defaults": {
+                    "color": {
+                      "mode": "palette-classic"
+                    },
+                    "custom": {
+                      "axisBorderShow": false,
+                      "axisCenteredZero": false,
+                      "axisColorMode": "text",
+                      "axisLabel": "",
+                      "axisPlacement": "auto",
+                      "barAlignment": 0,
+                      "barWidthFactor": 0.6,
+                      "drawStyle": "line",
+                      "fillOpacity": 0,
+                      "gradientMode": "none",
+                      "hideFrom": {
+                        "legend": false,
+                        "tooltip": false,
+                        "viz": false
+                      },
+                      "insertNulls": false,
+                      "lineInterpolation": "linear",
+                      "lineWidth": 1,
+                      "pointSize": 5,
+                      "scaleDistribution": {
+                        "type": "linear"
+                      },
+                      "showPoints": "auto",
+                      "showValues": false,
+                      "spanNulls": false,
+                      "stacking": {
+                        "group": "A",
+                        "mode": "none"
+                      },
+                      "thresholdsStyle": {
+                        "mode": "off"
+                      }
+                    },
+                    "thresholds": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": 0
+                        },
+                        {
+                          "color": "red",
+                          "value": 80
+                        }
+                      ]
+                    },
+                    "unit": "cores"
+                  },
+                  "overrides": []
+                },
+                "options": {
+                  "annotations": {
+                    "clustering": -1,
+                    "multiLane": false
+                  },
+                  "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "enableFacetedFilter": false,
+                    "overflow": "ellipsis",
+                    "placement": "bottom",
+                    "showLegend": true
+                  },
+                  "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                  }
+                }
+              },
+              "version": "13.1.0"
+            }
+          }
+        },
+        "panel-5": {
+          "kind": "Panel",
+          "spec": {
+            "data": {
+              "kind": "QueryGroup",
+              "spec": {
+                "queries": [
+                  {
+                    "kind": "PanelQuery",
+                    "spec": {
+                      "hidden": false,
+                      "query": {
+                        "datasource": {
+                          "name": "prometheus"
+                        },
+                        "group": "prometheus",
+                        "kind": "DataQuery",
+                        "spec": {
+                          "editorMode": "code",
+                          "expr": "sum by (pod) (\n    container_memory_working_set_bytes{\n      namespace=\"demo\",\n      container!=\"\",\n      image!=\"\"\n    }\n  )\n",
+                          "legendFormat": "{{pods}}",
+                          "range": true
+                        },
+                        "version": "v0"
+                      },
+                      "refId": "A"
+                    }
+                  }
+                ],
+                "queryOptions": {},
+                "transformations": []
+              }
+            },
+            "description": "",
+            "id": 5,
+            "links": [],
+            "title": "Demo Web Memory Usage",
+            "vizConfig": {
+              "group": "bargauge",
+              "kind": "VizConfig",
+              "spec": {
+                "fieldConfig": {
+                  "defaults": {
+                    "color": {
+                      "mode": "continuous-GrYlRd"
+                    },
+                    "thresholds": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": 0
+                        },
+                        {
+                          "color": "red",
+                          "value": 80
+                        }
+                      ]
+                    },
+                    "unit": "bytes"
+                  },
+                  "overrides": []
+                },
+                "options": {
+                  "displayMode": "basic",
+                  "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "overflow": "ellipsis",
+                    "placement": "bottom",
+                    "showLegend": true
+                  },
+                  "maxVizHeight": 300,
+                  "minVizHeight": 16,
+                  "minVizWidth": 8,
+                  "namePlacement": "auto",
+                  "orientation": "horizontal",
+                  "reduceOptions": {
+                    "calcs": [
+                      "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                  },
+                  "showUnfilled": true,
+                  "sizing": "auto",
+                  "valueMode": "color"
+                }
+              },
+              "version": "13.1.0"
+            }
+          }
+        },
+        "panel-6": {
+          "kind": "Panel",
+          "spec": {
+            "data": {
+              "kind": "QueryGroup",
+              "spec": {
+                "queries": [
+                  {
+                    "kind": "PanelQuery",
+                    "spec": {
+                      "hidden": false,
+                      "query": {
+                        "datasource": {
+                          "name": "prometheus"
+                        },
+                        "group": "prometheus",
+                        "kind": "DataQuery",
+                        "spec": {
+                          "editorMode": "code",
+                          "expr": "sum by (pod) (\n    kube_pod_container_status_restarts_total{\n      namespace=\"demo\"\n    }\n  )",
+                          "legendFormat": "{{pods}}",
+                          "range": true
+                        },
+                        "version": "v0"
+                      },
+                      "refId": "A"
+                    }
+                  }
+                ],
+                "queryOptions": {},
+                "transformations": []
+              }
+            },
+            "description": "",
+            "id": 6,
+            "links": [],
+            "title": "Demo Web Pod Restarts",
+            "vizConfig": {
+              "group": "barchart",
+              "kind": "VizConfig",
+              "spec": {
+                "fieldConfig": {
+                  "defaults": {
+                    "color": {
+                      "mode": "thresholds"
+                    },
+                    "custom": {
+                      "axisBorderShow": false,
+                      "axisCenteredZero": false,
+                      "axisColorMode": "text",
+                      "axisLabel": "",
+                      "axisPlacement": "auto",
+                      "fillOpacity": 80,
+                      "gradientMode": "none",
+                      "hideFrom": {
+                        "legend": false,
+                        "tooltip": false,
+                        "viz": false
+                      },
+                      "lineWidth": 1,
+                      "scaleDistribution": {
+                        "type": "linear"
+                      },
+                      "thresholdsStyle": {
+                        "mode": "off"
+                      }
+                    },
+                    "decimals": 0,
+                    "min": 0,
+                    "thresholds": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": 0
+                        },
+                        {
+                          "color": "red",
+                          "value": 80
+                        }
+                      ]
+                    },
+                    "unit": "short"
+                  },
+                  "overrides": []
+                },
+                "options": {
+                  "barRadius": 0,
+                  "barWidth": 0.97,
+                  "fullHighlight": false,
+                  "groupWidth": 0.7,
+                  "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "overflow": "ellipsis",
+                    "placement": "bottom",
+                    "showLegend": true
+                  },
+                  "orientation": "auto",
+                  "showValue": "auto",
+                  "stacking": "none",
+                  "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                  },
+                  "xTickLabelRotation": 0,
+                  "xTickLabelSpacing": 0
+                }
+              },
+              "version": "13.1.0"
+            }
+          }
+        },
+        "panel-7": {
+          "kind": "Panel",
+          "spec": {
+            "data": {
+              "kind": "QueryGroup",
+              "spec": {
+                "queries": [],
+                "queryOptions": {},
+                "transformations": []
+              }
+            },
+            "description": "",
+            "id": 7,
+            "links": [],
+            "title": "Active Platform Alerts",
+            "vizConfig": {
+              "group": "alertlist",
+              "kind": "VizConfig",
+              "spec": {
+                "fieldConfig": {
+                  "defaults": {},
+                  "overrides": []
+                },
+                "options": {
+                  "alertInstanceLabelFilter": "",
+                  "alertName": "",
+                  "dashboardAlerts": false,
+                  "groupBy": [],
+                  "groupMode": "default",
+                  "maxItems": 20,
+                  "showInactiveAlerts": false,
+                  "sortOrder": 3,
+                  "stateFilter": {
+                    "error": false,
+                    "firing": true,
+                    "noData": false,
+                    "normal": false,
+                    "pending": true,
+                    "recovering": false
+                  },
+                  "viewMode": "list"
+                }
+              },
+              "version": "13.1.0"
+            }
+          }
+        }
       },
-      "timepicker": {
-        "refresh_intervals": [
+      "layout": {
+        "kind": "GridLayout",
+        "spec": {
+          "items": [
+            {
+              "kind": "GridLayoutItem",
+              "spec": {
+                "element": {
+                  "kind": "ElementReference",
+                  "name": "panel-1"
+                },
+                "height": 9,
+                "width": 8,
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "kind": "GridLayoutItem",
+              "spec": {
+                "element": {
+                  "kind": "ElementReference",
+                  "name": "panel-2"
+                },
+                "height": 9,
+                "width": 8,
+                "x": 8,
+                "y": 0
+              }
+            },
+            {
+              "kind": "GridLayoutItem",
+              "spec": {
+                "element": {
+                  "kind": "ElementReference",
+                  "name": "panel-3"
+                },
+                "height": 9,
+                "width": 8,
+                "x": 16,
+                "y": 0
+              }
+            },
+            {
+              "kind": "GridLayoutItem",
+              "spec": {
+                "element": {
+                  "kind": "ElementReference",
+                  "name": "panel-4"
+                },
+                "height": 9,
+                "width": 8,
+                "x": 0,
+                "y": 9
+              }
+            },
+            {
+              "kind": "GridLayoutItem",
+              "spec": {
+                "element": {
+                  "kind": "ElementReference",
+                  "name": "panel-5"
+                },
+                "height": 9,
+                "width": 8,
+                "x": 8,
+                "y": 9
+              }
+            },
+            {
+              "kind": "GridLayoutItem",
+              "spec": {
+                "element": {
+                  "kind": "ElementReference",
+                  "name": "panel-6"
+                },
+                "height": 9,
+                "width": 8,
+                "x": 16,
+                "y": 9
+              }
+            },
+            {
+              "kind": "GridLayoutItem",
+              "spec": {
+                "element": {
+                  "kind": "ElementReference",
+                  "name": "panel-7"
+                },
+                "height": 8,
+                "width": 12,
+                "x": 0,
+                "y": 18
+              }
+            }
+          ]
+        }
+      },
+      "links": [],
+      "liveNow": false,
+      "preload": false,
+      "tags": [],
+      "timeSettings": {
+        "autoRefresh": "",
+        "autoRefreshIntervals": [
           "5s",
           "10s",
           "30s",
@@ -579,17 +843,19 @@ data:
           "1h",
           "2h",
           "1d"
-        ]
+        ],
+        "fiscalYearStartMonth": 0,
+        "from": "now-6h",
+        "hideTimepicker": false,
+        "timezone": "browser",
+        "to": "now"
       },
-      "timezone": "browser",
       "title": "K3s Platform Health",
-      "version": 10,
-      "uid": "adhf4wk",
-      "id": 3682734381092864
+      "variables": []
     }
 kind: ConfigMap
 metadata:
   name: k3s-platform-health-dashboard
   namespace: monitoring
-  labels:                           # Added label group 
-    grafana_dashboard: "1"          # Tell Grafana's dashboard sidecar to import this ConfigMap.
+  labels:
+    grafana_dashboard: "1"    # Tell Grafana's dashboard sidecar to import this ConfigMap.
