@@ -1,0 +1,22 @@
+# AI assisted configuration file
+# This PrometheusRule alerts when the demo app has fewer than three available replicas.
+
+apiVersion: monitoring.coreos.com/v1			# Use the Prometheus Operator API.
+kind: PrometheusRule					# Create a collection of Prometheus rules.
+metadata:						# Metadata that identifies this PrometheusRule.
+  name: demo-web-alerts					# Name of this resource.
+  namespace: monitoring					# Place the rule in the monitoring namespace.
+  labels:						# Labels used by Prometheus to discover the rule.
+    release: observability				# Match the Helm release label used by Prometheus.
+spec:							# Define the alerting rules.
+  groups:						# Group related Prometheus rules together.
+    - name: demo-web.rules				# Name of the rule group.
+      rules:						# Create a list of rules in the group.
+        - alert: DemoWebReplicasUnavailable		# Name shown in Prometheus and Alertmanager.
+          expr: kube_deployment_status_replicas_available{namespace="demo", deployment="demo-web"} < 3	# Fire when fewer than three replicas are available.
+          for: 2m					# Require the condition for two minutes before firing.
+          labels:					# Labels attached when the alert fires.
+            severity: warning				# Classify the alert as a warning.
+          annotations:					# Human-readable alert information.
+            summary: Demo web replica pods < 3		# Short description of the problem.
+            description: The demo-web deployment has fewer than 3 available replicas.	# Detailed description

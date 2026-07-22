@@ -1,0 +1,29 @@
+# AI assisted configuration file
+# Application that deploys custom Prometheus alerts through Argo CD.
+
+apiVersion: argoproj.io/v1alpha1					# Use the Argo CD application API.
+kind: Application							# Create an Argo CD application object.
+metadata:								# Metadata that identifies this object.
+  name: monitoring-config						# Name shown in Argo CD.
+  namespace: argocd							# Argo CD applications live in the argocd namespace.
+spec:									# Define desired Argo CD configuration.
+  project: default							# Use the default Argo CD project.
+  source:								# Define where Argo CD reads the manifest from.
+    repoURL: git@github.com:h3ggem/k3s-platform.git			# Link to private GitHub repository.
+    targetRevision: main						# Specify to target the main branch of GitHub repository.
+    path: apps/monitoring						# Specify location of manifests it should read.
+  destination:								# Define where Argo CD deploys the manifests.
+    server: https://kubernetes.default.svc				# Specify to deploy to the local kubernetes cluster.
+    namespace: monitoring						# Deploy the PrometheusRule into monitoring namespace.
+  syncPolicy:								# Define how Argo CD syncs with Git and Kubernetes.
+    automated:								# Enable automated syncing.
+      prune: true							# Remove resources deleted from git.
+      selfHeal: true							# Corrects manual changes made in the cluster.
+    retry:								# Retry sync in case of failure.
+      limit: 5								# Tries up to 5 times.
+      backoff:								# Increase the delay between attempts.
+        duration: 10s							# Waits 10 seconds before first attempt.
+        factor: 2							# Double the delay after each retry.
+        maxDuration: 3m							# Never wait longer than 3 minutes.
+    syncOptions:								# Define sync behavior.
+      - ServerSideApply=true						# Use server-side apply for resource updates.
