@@ -9,7 +9,7 @@ metadata:				# Metadata block to identify this deployment.
   labels:				# Labels attached to the deployment object.
     app: demo-web			# A label used to identify this application.
 spec:					# A block to specify the desired state of the deployment.
-  replicas: 2				# The desired state of pods Kubernetes should maintain.
+  replicas: 3				# The desired state of pods Kubernetes should maintain.
   selector:				# Defines which Pods belong to this Deployment.
     matchLabels:			# Labels used by the selector.
       app: demo-web			# Referencing same as earlier, needs to match pod template.
