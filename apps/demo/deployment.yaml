@@ -20,7 +20,7 @@ spec:					# A block to specify the desired state of the deployment.
     spec:				# A block to specify desired state for each pod.
       containers:			# A list of containers inside each pod.
         - name: nginx 			# Name of the container inside each Pod.
-          image: nginx:1.27.5-alpine	# Using a pinned image version for repeatable deployments.
+          image: nginx:non-existing-image-for-test	# Using a pinned image version for repeatable deployments.
           ports:			# Declare the ports used by containers in the Pod.
             - name: http		# Name used by the probes and Service.
               containerPort: 80		# Nginx listens on port 80 inside the container.
